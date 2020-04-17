@@ -1,0 +1,32 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+
+
+def gauss1d(x, mean, sigma):
+    '''
+    1d gaussian with mean and sigma
+    :param x:
+    :param mean:
+    :param sigma:
+    :return fx:
+    '''
+    dist = (x-mean)**2
+    stand_dist = dist/(2*sigma**2)
+    fx = np.exp(-stand_dist)/(np.sqrt(2*np.pi)*sigma)
+    return fx
+
+
+from matplotlib import cm
+
+fig=plt.figure()
+ax = fig.gca(projection='3d')
+y = np.linspace(-10, 10, 1000)
+x = np.linspace(-8, 12, 1000)
+X,Y = np.meshgrid(x, y)
+
+fX = gauss1d(X, mean=0, sigma=2)
+fY = gauss1d(Y, mean=2, sigma=1)
+fp = fX*fY
+ax.plot_surface(X,Y,fp,cmap=cm.coolwarm)
+plt.show()
